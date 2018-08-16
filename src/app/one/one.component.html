@@ -1,0 +1,41 @@
+<!-- <h1>{{ user }}</h1>
+<input type="text" [(ngModel)]="editUser">
+<button class="btn btn-primary" (click)="editTheUser()">Change</button> -->
+
+<!-- <div class="card" style="width: 18rem;" *ngFor="let listItem of productList">
+  <img class="card-img-top" alt="Card image cap" [src]="listItem.image">
+  <div class="card-body">
+    <h5 class="card-title">{{ listItem.name }}</h5>
+    <p class="card-text">
+      {{ listItem.description }}
+    </p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      {{ listItem.units }}
+    </li>
+  </ul>
+</div> -->
+
+<div class="container">
+  <ul class="list-group" *ngFor="let contact of contactList">
+    <li class="list-group-item"> {{ contact.name }}
+      <button class="btn btn-danger"
+      (click)="deleteContact(contact.name)">Delete</button>
+    </li>
+  </ul>
+</div>
+<br>
+<div class="container">
+  <form #myForm="ngForm" 
+  (submit)="addContact(); myForm.reset()">
+    <input type="text"
+    placeholder="Enter name"
+    [(ngModel)] = "txtName"
+    name="name">
+    <button class="bt btn-primary" type="submit">
+      Add Contact
+    </button>
+  </form>
+  <!-- {{ txtName }} -->
+</div>

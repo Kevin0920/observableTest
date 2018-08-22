@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MainService } from "./../main.service";
 import { ProductItem } from '../oop/products';
- 
+
 @Component({
   selector: 'app-one',
   templateUrl: './one.component.html',
@@ -9,56 +9,67 @@ import { ProductItem } from '../oop/products';
 })
 export class OneComponent implements OnInit, OnDestroy {
   private getAllProds: any;
+  public searchText;
+  public searchResult;
+  public searchCount;
+
   productList: [ProductItem];
-
   user: string;
-  editUser: string;
-
+  msg: string;
   txtName: string;
-
   contactList: any;
+  defaultImg = "assets/images/1.jpg";
 
   constructor(private _service: MainService) { }
 
   ngOnInit() {
+    // Getting all info from Json data
     this.getAllProds = this._service.list().subscribe(data => {
       this.productList = data as [ProductItem];
-      console.log(this.productList);
+      // console.log(this.productList);
+    });
 
-      // this._service.cast.subscribe(user => this.user = user);
+    this._service.cast.subscribe(data => this.user = data);
+    // console.log(this.user)
+
       
-      this.contactList = [
-        { name: 'kevin' },
-        { name: 'lisa' }
-      ]
-    }) 
+  }
+
+  onKeyup(event) {
+    this.searchText = event.target.value;
+  }
+
+  getUsers() {
+    this._service.getUser(this.searchText).subscribe(
+      res => {
+        this.searchResult = res; 
+        this.searchCount = res.total_count;
+      }
+    );
   }
 
   addContact() {
-    console.log(this.txtName);
     this.contactList.push(
-      { name: this.txtName }
-    )
-   
+      { msg: this.txtName }
+    );
+    console.log(this.txtName);
   }
 
-  deleteContact(name) {
-    console.log(name);
+  deleteContact(msg) {
+    console.log(msg);
     for (let i = 0; i < this.contactList.length; i++) {
-      if (this.contactList[i]["name"] == name) {
+      if (this.contactList[i]["msg"] == msg) {
         this.contactList.splice(i, 1);
       }
-      
     }
-  } 
+  }
 
 
-  // editTheUser() {
-  //   this._service.editUser(this.editUser);
-  // }
-  
+
+
   ngOnDestroy() {
-    this.getAllProds.unsubscribe()
+    this.getAllProds.unsubscribe();
+
   }
 
 }

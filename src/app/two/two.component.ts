@@ -9,15 +9,12 @@ import { MainService } from "./../main.service";
 export class TwoComponent implements OnInit {
 
   user: string;
-
-  
-
-
   constructor(private _service: MainService) { }
 
   ngOnInit() {
-    // this._service.cast.subscribe(data => this.user = data)
+    this._service.cast.subscribe(data => this.user = data)
     
+    // this._service.getUser()
   }
 
 }

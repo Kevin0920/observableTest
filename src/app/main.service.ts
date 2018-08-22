@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { map } from 'rxjs/operators';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
-// import 'rxjs/add/operator/do';
-// import 'rxjs/add/operator/catch';
-
 
 const allInfo = 'assets/json/products.json';
 
@@ -14,8 +11,10 @@ const allInfo = 'assets/json/products.json';
 })
 export class MainService {
 
-  // private user = new BehaviorSubject<string>('John');
-  // cast = this.user.asObservable();
+  private user = new BehaviorSubject<string>('Kevin');
+  cast = this.user.asObservable();
+
+  public data: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
   constructor(private _http: Http) { }
 
@@ -23,8 +22,17 @@ export class MainService {
     return this._http.get(allInfo).pipe(map(response => response.json()));
   }
 
-  // editUser(newUser) {
-  //   this.user.next(newUser);
-  // }
+  getUser(searchText): Observable<any> {
+    const url = 'http://api.github.com/search/users?q=' + searchText;
 
+    return this._http.get(url).pipe(map(
+      res => {
+        const resultData = res.json();
+        console.log(resultData);
+        return resultData;
+      }
+    )
+    )
+    // return this._http.get(url).pipe(map(response => response.json()));
+  }
 }
